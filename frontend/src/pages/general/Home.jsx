@@ -4,19 +4,19 @@ import React from 'react'
 const reels = [
   {
     id: 'fp-1',
-    src: 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4',
+    src: 'https://ik.imagekit.io/qkes1ny70/food/1770303244549-14000992_1080_1920_30fps_2w34TNgEp.mp4',
     description: 'Discover local cafés offering curated meal plans and exclusive morning bundles tailored to your routine.',
     storeUrl: '#',
   },
   {
     id: 'fp-2',
-    src: 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4',
+    src: 'https://ik.imagekit.io/qkes1ny70/food/1770303244549-14000992_1080_1920_30fps_2w34TNgEp.mp4',
     description: 'Order from community kitchens that prepare seasonal dishes with same-day delivery and zero-plastic packaging.',
     storeUrl: '#',
   },
   {
     id: 'fp-3',
-    src: 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4',
+    src: 'https://ik.imagekit.io/qkes1ny70/food/1770303244549-14000992_1080_1920_30fps_2w34TNgEp.mp4',
     description: 'Support independent grocers featuring farm-to-table produce, pantry staples, and chef-led tasting flights.',
     storeUrl: '#',
   },
