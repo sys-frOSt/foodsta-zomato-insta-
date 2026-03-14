@@ -1,26 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import axios from 'axios'
+import {useNavigate,Link} from 'react-router-dom'
 
 // Demo data describing the reels that will be shown on the home feed.
-const reels = [
-  {
-    id: 'fp-1',
-    src: 'https://ik.imagekit.io/qkes1ny70/food/1770303244549-14000992_1080_1920_30fps_2w34TNgEp.mp4',
-    description: 'Discover local cafés offering curated meal plans and exclusive morning bundles tailored to your routine.',
-    storeUrl: '#',
-  },
-  {
-    id: 'fp-2',
-    src: 'https://ik.imagekit.io/qkes1ny70/food/1770303244549-14000992_1080_1920_30fps_2w34TNgEp.mp4',
-    description: 'Order from community kitchens that prepare seasonal dishes with same-day delivery and zero-plastic packaging.',
-    storeUrl: '#',
-  },
-  {
-    id: 'fp-3',
-    src: 'https://ik.imagekit.io/qkes1ny70/food/1770303244549-14000992_1080_1920_30fps_2w34TNgEp.mp4',
-    description: 'Support independent grocers featuring farm-to-table produce, pantry staples, and chef-led tasting flights.',
-    storeUrl: '#',
-  },
-]
 
 const styles = {
   wrapper: {
@@ -90,27 +72,83 @@ const styles = {
 }
 
 const Home = () => {
+  const [videos, setVideos] = React.useState([]);
+  const videoRefs = React.useRef({});
+
+  useEffect(() => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    
+    axios.get('http://localhost:3000/api/food', {
+      withCredentials: true,
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    })
+      .then(response => {
+        setVideos(response.data.foodItems);
+      })
+      .catch(error => {
+        console.error('Error fetching food items:', error);
+      });
+  }, []);
+
+  // Intersection Observer to play/pause videos based on visibility
+  useEffect(() => {
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        const video = videoRefs.current[entry.target.id];
+        if (video) {
+          if (entry.isIntersecting) {
+            video.play().catch(err => console.log('Play error:', err));
+          } else {
+            video.pause();
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold: 0.5, // Video must be 50% visible
+    });
+
+    Object.keys(videoRefs.current).forEach((key) => {
+      const videoElement = videoRefs.current[key];
+      if (videoElement) {
+        observer.observe(videoElement);
+      }
+    });
+
+    return () => {
+      Object.keys(videoRefs.current).forEach((key) => {
+        const videoElement = videoRefs.current[key];
+        if (videoElement) {
+          observer.unobserve(videoElement);
+        }
+      });
+    };
+  }, [videos]);
+
   return (
     <main style={styles.wrapper}>
       <div style={styles.reelContainer}>
-        {reels.map((reel) => (
-          <section key={reel.id} style={styles.reelSlide}>
+        {videos.map((item) => (
+          <section key={item._id} style={styles.reelSlide}>
             <video
+              id={`video-${item._id}`}
+              ref={(el) => {
+                if (el) videoRefs.current[`video-${item._id}`] = el;
+              }}
               style={styles.video}
-              src={reel.src}
-              autoPlay
+              src={item.video}
               loop
               muted
               playsInline
+              preload="metadata"
             />
             <div style={styles.overlay}>
               <div style={styles.overlayContent}>
-                <p style={styles.description}>{reel.description}</p>
+                <p style={styles.description}>{item.description}</p>
                 <a
-                  href={reel.storeUrl}
+                  href={`/foodpartner/${item.foodpartner}`}
                   style={styles.button}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   aria-label="Visit store"
                 >
                   Visit store
@@ -121,7 +159,7 @@ const Home = () => {
         ))}
       </div>
     </main>
-  )
+  );
 }
 
 export default Home
