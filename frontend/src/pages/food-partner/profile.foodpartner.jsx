@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const ProfileFoodPartner = () => {
+  const profileAvatarUrl = 'https://images.unsplash.com/photo-1773394343278-21f63954867e?q=80&w=695&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
   const { id } = useParams();
   const [foodPartnerData, setFoodPartnerData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -83,6 +84,13 @@ const ProfileFoodPartner = () => {
       fontSize: '30px',
       fontWeight: 700,
       color: '#fff',
+      overflow: 'hidden',
+    },
+    avatarImage: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      display: 'block',
     },
     infoSection: {
       flex: 1,
@@ -234,7 +242,9 @@ const ProfileFoodPartner = () => {
         <div style={styles.profileCard}>
           <div style={styles.profileHeader}>
             <div style={styles.profileImage}>
-              <div style={styles.profileImageInner}>{getInitials(displayName)}</div>
+              <div style={styles.profileImageInner}>
+                <img src={profileAvatarUrl} alt={displayName} style={styles.avatarImage} />
+              </div>
             </div>
             <div style={styles.infoSection}>
               <div style={styles.titleRow}>
