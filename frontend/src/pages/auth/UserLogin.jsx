@@ -41,6 +41,7 @@ const UserLogin = () => {
          formData,
         { withCredentials: true })
       console.log('Login successful:', response.data)
+      localStorage.setItem('authRole', 'user')
       navigate('/')
     } catch (error) {
       console.error('Login failed:', error);

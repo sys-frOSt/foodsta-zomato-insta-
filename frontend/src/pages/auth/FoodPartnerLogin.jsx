@@ -42,6 +42,7 @@ const FoodPartnerLogin = () => {
         formData,
         { withCredentials: true })
       console.log('Login successful:', response.data)
+      localStorage.setItem('authRole', 'foodpartner')
       navigate('/createfood')
     }catch(error){
       console.error('Login failed:', error);
