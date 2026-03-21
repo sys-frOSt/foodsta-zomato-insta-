@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const ProfileFoodPartner = () => {
+  const navigate = useNavigate();
   const profileAvatarUrl = 'https://images.unsplash.com/photo-1773394343278-21f63954867e?q=80&w=695&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
   const { id } = useParams();
   const [foodPartnerData, setFoodPartnerData] = React.useState(null);
@@ -44,7 +45,7 @@ const ProfileFoodPartner = () => {
     container: {
       backgroundColor: '#0f1115',
       minHeight: '100vh',
-      padding: '20px 16px 40px',
+      padding: '20px 16px 96px',
       color: '#fff',
     },
     pageWrap: {
@@ -222,6 +223,43 @@ const ProfileFoodPartner = () => {
       borderRadius: '10px',
       padding: '20px',
     },
+    bottomNav: {
+      position: 'fixed',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: '#020814',
+      borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+      padding: '10px 14px calc(10px + env(safe-area-inset-bottom))',
+      zIndex: 30,
+    },
+    navContent: {
+      width: '100%',
+      maxWidth: '920px',
+      margin: '0 auto',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: '12px',
+    },
+    navButton: {
+      border: '1px solid rgba(255,255,255,0.2)',
+      background: 'rgba(255,255,255,0.04)',
+      color: '#fff',
+      borderRadius: '999px',
+      padding: '8px 14px',
+      fontWeight: 600,
+      cursor: 'pointer',
+    },
+    navHomeButton: {
+      border: 'none',
+      background: 'rgba(44, 126, 248, 0.95)',
+      color: '#fff',
+      borderRadius: '999px',
+      padding: '8px 16px',
+      fontWeight: 700,
+      cursor: 'pointer',
+    },
   };
 
   if (loading) {
@@ -312,6 +350,16 @@ const ProfileFoodPartner = () => {
           </div>
         )}
       </div>
+      <nav style={styles.bottomNav} aria-label='Profile navigation'>
+        <div style={styles.navContent}>
+          <button type='button' style={styles.navButton} onClick={() => navigate(-1)}>
+            Back
+          </button>
+          <button type='button' style={styles.navHomeButton} onClick={() => navigate('/home')}>
+            Home
+          </button>
+        </div>
+      </nav>
     </div>
   );
 }

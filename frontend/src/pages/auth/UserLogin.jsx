@@ -42,7 +42,10 @@ const UserLogin = () => {
         { withCredentials: true })
       console.log('Login successful:', response.data)
       localStorage.setItem('authRole', 'user')
-      navigate('/')
+      if (response.data?.user) {
+        localStorage.setItem('userProfile', JSON.stringify(response.data.user))
+      }
+      navigate('/home')
     } catch (error) {
       console.error('Login failed:', error);
     }

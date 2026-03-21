@@ -56,7 +56,7 @@ const Createfoodpartner = () => {
       withCredentials: true,
     })
     console.log(response.data);
-    navigate("/");
+    navigate("/createfood");
     
 
   };

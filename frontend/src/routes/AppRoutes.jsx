@@ -34,18 +34,19 @@ const AppRoutes = () => {
       <Routes>
         <Route
           path='/user/register'
-          element={
-            <PublicAuthRoute restrictedForRole='user' redirectTo='/'>
-              <UserRegister />
-            </PublicAuthRoute>
-          }
+          element={<UserRegister />}
         />
         <Route
           path='/user/login'
+          element={<UserLogin />}
+        />
+        <Route path='/' element={<Navigate to='/user/login' replace />} />
+        <Route
+          path='/home'
           element={
-            <PublicAuthRoute restrictedForRole='user' redirectTo='/'>
-              <UserLogin />
-            </PublicAuthRoute>
+            <ProtectedRoute allowedRole='user'>
+              <Home />
+            </ProtectedRoute>
           }
         />
         <Route
@@ -65,14 +66,6 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path='/'
-          element={
-            <ProtectedRoute allowedRole='user'>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path='/createfood'
           element={
             <ProtectedRoute allowedRole='foodpartner'>
@@ -88,7 +81,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route path='*' element={<Navigate to='/' replace />} />
+        <Route path='*' element={<Navigate to='/user/login' replace />} />
       </Routes>
     </Router> 
   )

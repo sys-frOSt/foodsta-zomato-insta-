@@ -2,6 +2,19 @@ const userModel = require('../models/user.model');
 const foodPartnerModel = require('../models/foodpartner.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+const authCookieOptions = {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: false,
+    path: '/',
+};
+
+const clearAuthCookieOptions = {
+    ...authCookieOptions,
+    expires: new Date(0),
+    maxAge: 0,
+};
 //api to register user
 async function registerUser(req, res) {
     const { fullName, email, password } = req.body;
@@ -26,7 +39,7 @@ async function registerUser(req, res) {
     const token = jwt.sign({
         id:user._id,
     },process.env.JWT_SECRET)
-    res.cookie('token', token)
+    res.cookie('token', token, authCookieOptions)
 
     res.status(201).json({
         message: 'User registered successfully',
@@ -55,7 +68,7 @@ async function loginUser(req,res){
     const token = jwt.sign({
         id:user._id,
     },process.env.JWT_SECRET)
-    res.cookie('token', token)
+    res.cookie('token', token, authCookieOptions)
 
     res.status(200).json({
         message:'Login successful',
@@ -68,7 +81,7 @@ async function loginUser(req,res){
 }
 //api to logout user
 function logoutUser(req,res){
-    res.clearCookie('token');
+    res.clearCookie('token', clearAuthCookieOptions);
     res.status(200).json({message:'Logout successful'});
 }
 
@@ -98,7 +111,7 @@ async function registerFoodPartner(req, res) {
     const token = jwt.sign({
         id:foodPartner._id,
     },process.env.JWT_SECRET)
-    res.cookie('token', token)
+    res.cookie('token', token, authCookieOptions)
     res.status(201).json({
         message:'Food partner registered successfully',
         foodPartner:{
@@ -125,7 +138,7 @@ async function loginFoodPartner(req,res){
     const token = jwt.sign({
         id:foodPartner._id,
     },process.env.JWT_SECRET)
-    res.cookie('token', token)
+    res.cookie('token', token, authCookieOptions)
     res.status(200).json({
         message:'Login successful',
         foodPartner:{
@@ -137,7 +150,7 @@ async function loginFoodPartner(req,res){
 }
 //logout api for food partner
 async function logoutFoodPartner(req,res){
-    res.clearCookie('token');
+    res.clearCookie('token', clearAuthCookieOptions);
     res.status(200).json({message:'Logout successful'});
 }
 
