@@ -2,6 +2,7 @@ import React from 'react';
 import '../../styles/create-food-partner.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../../config/api';
 
 const Createfoodpartner = () => {
   const [videoFileName, setVideoFileName] = React.useState('');
@@ -52,7 +53,7 @@ const Createfoodpartner = () => {
     formData.append('name', event.target.name.value);
     formData.append('description', event.target.description.value);
 
-    const response = axios.post('http://localhost:3000/api/food', formData, {
+    const response = axios.post(`${API_BASE_URL}/api/food`, formData, {
       withCredentials: true,
     })
     console.log(response.data);

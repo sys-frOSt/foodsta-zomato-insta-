@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
+import API_BASE_URL from '../../config/api'
 
 // Demo data describing the reels that will be shown on the home feed.
 
@@ -162,7 +163,7 @@ const Home = () => {
   useEffect(() => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     
-    axios.get('http://localhost:3000/api/food', {
+    axios.get(`${API_BASE_URL}/api/food`, {
       withCredentials: true,
       headers: token ? { Authorization: `Bearer ${token}` } : {}
     })
@@ -218,8 +219,8 @@ const Home = () => {
     setIsLoggingOut(true);
     const authRole = localStorage.getItem('authRole');
     const logoutUrl = authRole === 'foodpartner'
-      ? 'http://localhost:3000/api/auth/foodpartner/logout'
-      : 'http://localhost:3000/api/auth/user/logout';
+      ? `${API_BASE_URL}/api/auth/foodpartner/logout`
+      : `${API_BASE_URL}/api/auth/user/logout`;
 
     try {
       await axios.get(logoutUrl, { withCredentials: true });

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import API_BASE_URL from '../../config/api'
 
 const ProfileFoodPartner = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const ProfileFoodPartner = () => {
   useEffect(() => {
     if (id) {
       // Fetch specific food partner data
-      axios.get(`http://localhost:3000/api/foodpartner/${id}`, {
+      axios.get(`${API_BASE_URL}/api/foodpartner/${id}`, {
         withCredentials: true,
       })
         .then(response => {

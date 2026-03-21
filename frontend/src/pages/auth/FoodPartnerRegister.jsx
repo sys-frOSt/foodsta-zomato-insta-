@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import '../../styles/auth.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import API_BASE_URL from '../../config/api'
 
 
 const FoodPartnerRegister = () => {
@@ -72,7 +73,7 @@ const FoodPartnerRegister = () => {
 
     
     try {
-      const response=await axios.post('http://localhost:3000/api/auth/foodpartner/register',
+      const response=await axios.post(`${API_BASE_URL}/api/auth/foodpartner/register`,
         formData,
         { withCredentials: true })
         navigate('/foodpartner/login')

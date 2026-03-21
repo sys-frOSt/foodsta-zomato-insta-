@@ -3,10 +3,12 @@ const foodPartnerModel = require('../models/foodpartner.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const authCookieOptions = {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: false,
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction,
     path: '/',
 };
 
