@@ -1,11 +1,14 @@
 import React from 'react';
 import '../../styles/create-food-partner.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Createfoodpartner = () => {
   const [videoFileName, setVideoFileName] = React.useState('');
   const [previewUrl, setPreviewUrl] = React.useState('');
   const [previewType, setPreviewType] = React.useState('');
+
+  const navigate = useNavigate();
 
   React.useEffect(() => () => {
     if (previewUrl) {
@@ -53,6 +56,7 @@ const Createfoodpartner = () => {
       withCredentials: true,
     })
     console.log(response.data);
+    navigate("/");
     
 
   };
